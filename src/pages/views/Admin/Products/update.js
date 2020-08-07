@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { storage } from "../../../../firebase";
 import Product_API from "../../../../api/productApi";
 const UpdateProduct = ({ products, categories, onUpdateProduct }) => {
   const { id } = useParams();
@@ -28,9 +29,6 @@ const UpdateProduct = ({ products, categories, onUpdateProduct }) => {
       console.log("failed to request API PRODUCT: ", error);
     }
   };
-  const [valueInput, setInput] = useState({
-    id: id,
-  });
 
   const [price, setPrice] = useState(0);
   const [price_sale, setPriceSale] = useState(0);
@@ -38,8 +36,9 @@ const UpdateProduct = ({ products, categories, onUpdateProduct }) => {
   const [short_desc, setDesc] = useState("");
   const [detail, setDetail] = useState("");
 
-  const handleChangeImgae = (event) => {
-    let value = event.target.value;
+  const handleChangeImage = (event) => {
+    let value = event.target.files[0];
+    console.log("vừa thay đổi ảnh");
     setImage(value);
   };
 
@@ -52,38 +51,59 @@ const UpdateProduct = ({ products, categories, onUpdateProduct }) => {
     setPriceSale(value);
   };
 
+  const callApiUpdate = async (id, data) => {
+    try {
+      const response = await Product_API.update(id, data);
+      if (response.statusText === "OK" && response.status < 300) {
+        Swal.fire({
+          position: "bottom-center",
+          icon: "success",
+          title: "Sửa thành công",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        onUpdateProduct(id, data);
+        history.push("/admin/products");
+      } else {
+        Swal.fire({
+          position: "bottom-center",
+          icon: "warning",
+          title: "Sửa thất bại",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      console.log("failed to request API UPDATE PRODUCT: ", error);
+    }
+  };
   const onSubmit = (data) => {
+    Swal.showLoading();
     data.short_desc = short_desc;
     data.detail = detail;
-
-    const url = `http://127.0.0.1:8000/api/product/${id}`;
-    axios
-      .put(url, data)
-      .then(function (response) {
-        console.log({ response });
-        if (response.statusText === "OK" && response.status < 300) {
-          Swal.fire({
-            position: "bottom-center",
-            icon: "success",
-            title: "Sửa thành công",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          onUpdateProduct(id, data);
-          history.push("/admin/products");
-        } else {
-          Swal.fire({
-            position: "bottom-center",
-            icon: "warning",
-            title: "Sửa thất bại",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
+    const params = {
+      cate_id: data.cate_id,
+      name: data.name,
+      price: data.price,
+      price_sale: data.price_sale,
+      quantity: data.quantity,
+      short_desc: data.short_desc,
+      detail: data.detail,
+      image: data.image.length ? data.image : data.imageOrigin,
+    };
+    console.log(data.image);
+    if (data.image.length) {
+      let file = data.image[0];
+      let storageRef = storage.ref(`images/${file.name}`);
+      storageRef.put(file).then(function () {
+        storageRef.getDownloadURL().then((url) => {
+          params.image = url;
+          callApiUpdate(id, params);
+        });
       });
+    } else {
+      callApiUpdate(id, params);
+    }
   };
 
   return (
@@ -124,13 +144,15 @@ const UpdateProduct = ({ products, categories, onUpdateProduct }) => {
                             className="form-control"
                             ref={register({
                               required: true,
-                            })}>
+                            })}
+                          >
                             <option value="">... Choose a category ...</option>
                             {categories.map((elment, index) => (
                               <option
                                 key={index}
                                 value={elment.id}
-                                selected={el.cate_id == elment.id}>
+                                selected={el.cate_id == elment.id}
+                              >
                                 {elment.cate_name}
                               </option>
                             ))}
@@ -217,20 +239,39 @@ const UpdateProduct = ({ products, categories, onUpdateProduct }) => {
                         <div className="form-group">
                           <label>Url Image (*):</label>
                           <input
-                            type="text"
+                            type="file"
                             name="image"
-                            className="form-control"
-                            defaultValue={el.image}
-                            onChange={handleChangeImgae}
-                            ref={register({ required: true })}
+                            onChange={handleChangeImage}
+                            ref={register({
+                              validate: (value) => {
+                                if (value.length > 0) {
+                                  let patternImage = /\S{1,}[^\.][\.][p|j][n|p][g|e]g?$/g;
+                                  let checkImage = patternImage.test(
+                                    value[0].name
+                                  );
+                                  return checkImage;
+                                }
+                              },
+                            })}
                           />
                           <span className="text-danger">
-                            {errors.image && "* Vui lòng điền url Image"}
+                            {errors.image?.type === "validate" &&
+                              "* Vui lòng upload Image (.png, .jpg, jpeg)"}
                           </span>
+                          <input
+                            type="hidden"
+                            name="imageOrigin"
+                            defaultValue={el.image}
+                            ref={register()}
+                          />
                         </div>
                       </div>
                       <div className="col-6">
-                        <img src={image ? image : el.image} />
+                        <img
+                          src={image ? image : el.image}
+                          width="300px"
+                          className="bor10"
+                        />
                       </div>
                     </div>
 

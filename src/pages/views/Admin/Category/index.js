@@ -1,7 +1,11 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser, {
+  processNodes,
+  convertNodeToElement,
+  htmlparser2,
+} from "react-html-parser";
 const Categories = ({ categories, onRemoveCategory }) => {
   const removeHandle = (id) => {
     Swal.fire({
@@ -58,7 +62,10 @@ const Categories = ({ categories, onRemoveCategory }) => {
                         >
                           <i className="fas fa-trash-alt text-danger"></i>
                         </button>
-                        <Link className="btn btn-outline">
+                        <Link
+                          to={`/admin/category/edit/${id}`}
+                          className="btn btn-outline"
+                        >
                           <i className="far fa-edit text-warning"></i>
                         </Link>
                       </center>

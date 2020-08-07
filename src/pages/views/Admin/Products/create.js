@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { storage } from "../../../../firebase";
+import Product_API from "../../../../api/productApi";
 
 const CreateProduct = ({ categories, onCreateProduct }) => {
   useEffect(() => {}, []);
@@ -21,6 +23,7 @@ const CreateProduct = ({ categories, onCreateProduct }) => {
   const [detail, setDetail] = useState("");
   const handleChangePrice = (event) => {
     let value = event.target.value;
+    console.log(value);
     setPrice(value);
   };
   const handleChangePriceSale = (event) => {
@@ -28,46 +31,52 @@ const CreateProduct = ({ categories, onCreateProduct }) => {
     setPriceSale(value);
   };
   const handleChangeImgae = (event) => {
-    let value = event.target.value;
-    setImage(value);
+    let value = event.target.files[0];
+    console.log(value);
+    // setImage(value);
   };
 
   const onSubmit = (data) => {
     data.short_desc = desc;
     data.detail = detail;
+    Swal.showLoading();
+    let file = data.image[0];
+    // tạo reference chứa ảnh trên firesbase
+    let storageRef = storage.ref(`images/${file.name}`);
+    // đẩy ảnh lên đường dẫn trên
+    storageRef.put(file).then(function () {
+      storageRef.getDownloadURL().then(async (url) => {
+        data.image = url;
+        try {
+          const response = await Product_API.create(data);
+          if (response.statusText === "Created" && response.status < 300) {
+            Swal.fire({
+              position: "bottom-center",
+              icon: "success",
+              title: "Thêm thành công",
+              showConfirmButton: false,
+              timer: 1500,
+            });
 
-    axios
-      .post("http://127.0.0.1:8000/api/product", data)
-      .then(function (response) {
-        console.log({ response });
-        if (response.statusText === "Created" && response.status < 300) {
-          Swal.fire({
-            position: "bottom-center",
-            icon: "success",
-            title: "Thêm thành công",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-
-          onCreateProduct({
-            ...data,
-            id: response.data.id,
-          });
-
-          history.push("/admin/products");
-        } else {
-          Swal.fire({
-            position: "bottom-center",
-            icon: "warning",
-            title: "Thêm thất bại",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+            onCreateProduct({
+              ...data,
+              id: response.data.id,
+            });
+            history.push("/admin/products");
+          } else {
+            Swal.fire({
+              position: "bottom-center",
+              icon: "warning",
+              title: "Thêm thất bại",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        } catch (error) {
+          console.log("failed to request API CREATE PRODUCT: ", error);
         }
-      })
-      .catch(function (error) {
-        console.log(error);
       });
+    });
   };
 
   return (
@@ -108,7 +117,8 @@ const CreateProduct = ({ categories, onCreateProduct }) => {
                     className="form-control"
                     ref={register({
                       required: true,
-                    })}>
+                    })}
+                  >
                     <option value="">... Choose a category ...</option>
 
                     {categories.map((elment, index) => (
@@ -195,15 +205,25 @@ const CreateProduct = ({ categories, onCreateProduct }) => {
                 </div>
                 <div className="form-group">
                   <label>Url Image (*):</label>
+
                   <input
-                    type="text"
+                    type="file"
                     name="image"
-                    className="form-control"
                     onChange={handleChangeImgae}
-                    ref={register({ required: true })}
+                    ref={register({
+                      required: true,
+                      validate: (value) => {
+                        let patternImage = /\S{1,}[^\.][\.][p|j][n|p][g|e]g?$/g;
+                        let checkImage = patternImage.test(value[0].name);
+                        return checkImage;
+                      },
+                    })}
                   />
                   <span className="text-danger">
-                    {errors.image && "* Vui lòng điền url Image"}
+                    {errors.image?.type === "required" &&
+                      "* Vui lòng upload Image "}
+                    {errors.image?.type === "validate" &&
+                      "* Vui lòng upload Image (.png, .jpg, jpeg)"}
                   </span>
                 </div>
               </div>

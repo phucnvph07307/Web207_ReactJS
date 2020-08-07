@@ -12,6 +12,7 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
+  const [invoice, setInvoice] = useState([]);
 
   useEffect(() => {
     getAllProducts();
@@ -54,6 +55,7 @@ function App() {
       console.log("failed to request API PRODUCT: ", error);
     }
   };
+
   const getTotal = (array = []) => {
     const res = array.reduce((prev, item) => {
       return prev + item.price * item.quantity;
@@ -173,6 +175,14 @@ function App() {
   const onHandleCreateCategory = (params) => {
     setCategories([...categories, params]);
   };
+  const onHandleUpdateCategory = (id, data) => {
+    data.id = id;
+    const newCategories = [...categories];
+    newCategories.forEach((element, index) => {
+      if (element.id == id) newCategories.splice(index, 1);
+    });
+    setCategories([...newCategories, data]);
+  };
 
   return (
     <div className="App">
@@ -193,6 +203,7 @@ function App() {
         getTotal={getTotal}
         onRemoveCategory={onHandleRemoveCategory}
         onCreateCategory={onHandleCreateCategory}
+        onUpdateCategory={onHandleUpdateCategory}
       />
     </div>
   );

@@ -58,7 +58,7 @@ const Sidebar = (props) => {
       <li className="nav-item">
         <Link
           className="nav-link collapsed"
-          to="/admin/products"
+          to="/admin/invoices"
           data-toggle="collapse"
           data-target="#collapseTwo"
           aria-expanded="true"

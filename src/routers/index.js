@@ -22,7 +22,10 @@ import Login from "../components/Auth/Login";
 import Checkout from "../pages/views/Main/Checkout";
 import Categories from "../pages/views/Admin/Category";
 import CreateCategory from "../pages/views/Admin/Category/create";
-
+import Upload from "../components/Upload";
+import Invoive from "../pages/views/Admin/Invoive";
+import InvoiveDetail from "../pages/views/Admin/Invoive/show";
+import UpdateCategory from "../pages/views/Admin/Category/update";
 const Routers = ({
   products,
   products_client,
@@ -40,6 +43,7 @@ const Routers = ({
   getTotal,
   onRemoveCategory,
   onCreateCategory,
+  onUpdateCategory,
 }) => {
   const onHandleRemove = (id) => {
     onRemove(id);
@@ -78,6 +82,9 @@ const Routers = ({
   return (
     <Router>
       <Switch>
+        <Route path="/upload">
+          <Upload />
+        </Route>
         <Route path="/admin/login/">
           <Login />
         </Route>
@@ -86,7 +93,7 @@ const Routers = ({
           <MainAdmin>
             <Switch>
               <Route path="/admin/" exact>
-                <Dashboard />
+                <Dashboard categories={categories} products={products} />
               </Route>
               <Route path="/admin/category" exact>
                 <Categories
@@ -96,6 +103,12 @@ const Routers = ({
               </Route>
               <Route path="/admin/category/create" exact>
                 <CreateCategory onCreateCategory={onHandleCreateCategory} />
+              </Route>
+              <Route path="/admin/category/edit/:id" exact>
+                <UpdateCategory
+                  categories={categories}
+                  onUpdateCategory={onUpdateCategory}
+                />
               </Route>
               <Route path="/admin/products/" exact>
                 <ProductsManager
@@ -120,6 +133,12 @@ const Routers = ({
               </Route>
               <Route path="/admin/products/:id">
                 <ShowProduct products={products} />
+              </Route>
+              <Route path="/admin/invoices">
+                <Invoive />
+              </Route>
+              <Route path="/admin/invoice/:id">
+                <InvoiveDetail products={products} />
               </Route>
             </Switch>
           </MainAdmin>
