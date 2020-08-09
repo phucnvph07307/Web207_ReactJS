@@ -34,7 +34,7 @@ function App() {
   const getAllCategories = async () => {
     try {
       const { data } = await Category_API.getAll();
-      setCategories(data.data);
+      setCategories(data);
     } catch (error) {
       console.log("failed to request API CATEGORY: ", error);
     }

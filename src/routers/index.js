@@ -28,6 +28,7 @@ import InvoiveDetail from "../pages/views/Admin/Invoive/show";
 import UpdateCategory from "../pages/views/Admin/Category/update";
 import ProductInCategory from "../pages/views/Main/ProductInCategory/ProductInCategory";
 import Search from "../pages/views/Main/Search";
+import ThankYou from "../pages/views/Main/ThankYou";
 const Routers = ({
   products,
   products_client,
@@ -201,6 +202,9 @@ const Routers = ({
               </Route>
               <Route path="/check-out">
                 <Checkout cart={cart} clearCart={onHandleClearCart} />
+              </Route>
+              <Route path="/thank-you">
+                <ThankYou />
               </Route>
             </Switch>
           </Main>

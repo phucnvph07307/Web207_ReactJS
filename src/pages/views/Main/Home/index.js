@@ -15,7 +15,7 @@ const Home = ({ products, onAddCart }) => {
             <div
               className="item-slick1"
               style={{
-                backgroundImage: "url(../../dist/images/slide-01.jpg)",
+                backgroundImage: "url(../../dist/images/slide-04.jpg)",
               }}
             >
               <div className="container h-full">

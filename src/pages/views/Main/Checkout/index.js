@@ -80,7 +80,7 @@ const Checkout = ({ cart, clearCart }) => {
             icon: "success",
             title: "Orders successfully",
           });
-          history.push("/shopping-cart");
+          history.push("/thank-you");
           clearCart();
         }
       });

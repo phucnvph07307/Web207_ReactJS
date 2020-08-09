@@ -29,9 +29,9 @@ const Header = ({ cart }) => {
               Free shipping for standard order over $100
             </div>
             <div className="right-top-bar flex-w h-full">
-              <a href="#" className="flex-c-m trans-04 p-lr-25">
-                Help &amp; FAQs
-              </a>
+              <Link to="/admin" className="flex-c-m trans-04 p-lr-25">
+                Admin
+              </Link>
               <a href="#" className="flex-c-m trans-04 p-lr-25">
                 My Account
               </a>

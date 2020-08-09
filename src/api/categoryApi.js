@@ -21,10 +21,15 @@ const remove = (id) => {
   return api.delete(`/category/${id}`);
 };
 
+const getAllAdmin = () => {
+  return api.get("/get_all_categories");
+};
+
 export default {
   getAll,
   get,
   create,
   update,
   remove,
+  getAllAdmin,
 };

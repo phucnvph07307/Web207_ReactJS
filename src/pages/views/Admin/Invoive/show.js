@@ -35,6 +35,7 @@ const InvoiveDetail = ({ products }) => {
                   <th scope="col">#</th>
                   <th scope="col">Invoice</th>
                   <th scope="col">Product Name</th>
+                  <th scope="col">Image</th>
                   <th scope="col">Quantity</th>
                   <th scope="col">Price</th>
                 </tr>
@@ -44,13 +45,20 @@ const InvoiveDetail = ({ products }) => {
                   <tr key={index}>
                     <td>{++index}</td>
                     <td>{element.invoice_id}</td>
-                    <td>
-                      {products.map((el) => {
-                        if (el.id == element.product_id) {
-                          return el.name;
-                        }
-                      })}
-                    </td>
+                    {products.map((el) => {
+                      if (el.id == element.product_id) {
+                        return <td>{el.name}</td>;
+                      }
+                    })}
+                    {products.map((el) => {
+                      if (el.id == element.product_id) {
+                        return (
+                          <td>
+                            <img src={el.image} width={80} />
+                          </td>
+                        );
+                      }
+                    })}
                     <td>{element.quantity}</td>
                     <td>${element.unit_price}</td>
                   </tr>

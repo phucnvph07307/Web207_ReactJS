@@ -16,6 +16,12 @@ const Sidebar = (props) => {
       </a>
       {/* Divider */}
       <hr className="sidebar-divider my-0" />
+      <li className="nav-item">
+        <Link className="nav-link" to="/">
+          <i className="fas fa-fw fa-tachometer-alt" />
+          <span>Website</span>
+        </Link>
+      </li>
       {/* Nav Item - Dashboard */}
       <li className="nav-item">
         <Link className="nav-link" to="/admin/">
@@ -31,19 +37,6 @@ const Sidebar = (props) => {
       <li className="nav-item">
         <Link
           className="nav-link collapsed"
-          to="/admin/products"
-          data-toggle="collapse"
-          data-target="#collapseTwo"
-          aria-expanded="true"
-          aria-controls="collapseTwo"
-        >
-          <i className="fas fa-fw fa-cog" />
-          <span>Products</span>
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link
-          className="nav-link collapsed"
           to="/admin/category"
           data-toggle="collapse"
           data-target="#collapseTwo"
@@ -52,6 +45,19 @@ const Sidebar = (props) => {
         >
           <i className="fas fa-fw fa-cog" />
           <span>Category</span>
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link
+          className="nav-link collapsed"
+          to="/admin/products"
+          data-toggle="collapse"
+          data-target="#collapseTwo"
+          aria-expanded="true"
+          aria-controls="collapseTwo"
+        >
+          <i className="fas fa-fw fa-cog" />
+          <span>Products</span>
         </Link>
       </li>
       <hr className="sidebar-divider d-none d-md-block" />
