@@ -1,28 +1,48 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Invoice_API from "../../../../api/invoiceApi";
+import InvoiceDetail_API from "../../../../api/invoice_detaiApi";
 import { Link } from "react-router-dom";
 
 const Dashboard = ({ products, categories }) => {
   const [total, setTotal] = useState(0);
+  const [countProduct, setCountProduct] = useState(0);
+
   useEffect(() => {
-    const Tinh = async () => {
-      try {
-        const response = await Invoice_API.getAll();
-        if (response) {
-          getTotal(response.data);
-        }
-      } catch (error) {
-        console.log("failed to request API: ", error);
-      }
-    };
-    Tinh();
+    TinhTong();
+    getCountProduct();
   }, []);
+  const TinhTong = async () => {
+    try {
+      const response = await Invoice_API.getAll();
+      if (response) {
+        getTotal(response.data);
+      }
+    } catch (error) {
+      console.log("failed to request API: ", error);
+    }
+  };
+  const getCountProduct = async () => {
+    try {
+      const response = await InvoiceDetail_API.getAll();
+      if (response) {
+        getCount(response.data);
+      }
+    } catch (error) {
+      console.log("failed to request API: ", error);
+    }
+  };
   const getTotal = (array = []) => {
     const res = array.reduce((prev, item) => {
       return prev + item.total_price;
     }, 0);
     setTotal(res);
+  };
+  const getCount = (array = []) => {
+    const res = array.reduce((prev, item) => {
+      return prev + item.quantity;
+    }, 0);
+    setCountProduct(res);
   };
   return (
     <div>
@@ -87,12 +107,15 @@ const Dashboard = ({ products, categories }) => {
                     to="/admin/invoices"
                     className="text-xs font-weight-bold text-info text-uppercase mb-1"
                   >
-                    Tasks
+                    Invoice
                   </Link>
                   <div className="row no-gutters align-items-center">
                     <div className="col-auto">
                       <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">
                         ${total}
+                      </div>
+                      <div className="h5 mb-0 mr-3 font-weight-bold text-danger">
+                        products: {countProduct}
                       </div>
                     </div>
                   </div>

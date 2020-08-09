@@ -18,7 +18,7 @@ const Checkout = ({ cart, clearCart }) => {
 
   const getTotal = (array = []) => {
     return array.reduce((prev, item) => {
-      return prev + item.price * item.quantity;
+      return prev + item.price_sale * item.quantity;
     }, 0);
   };
   const onSubmit = (data) => {
@@ -62,7 +62,7 @@ const Checkout = ({ cart, clearCart }) => {
         invoice_id: invoice_id,
         product_id: element.id,
         quantity: element.quantity,
-        unit_price: element.price,
+        unit_price: element.price_sale,
       };
       axios.post(UrlPostInvoiceDetail, params).then((response) => {
         if (response.statusText === "Created" && response.status < 300) {
@@ -129,19 +129,21 @@ const Checkout = ({ cart, clearCart }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {cart.map(({ id, name, image, price, quantity }, index) => (
-                    <tr className="table_row" key={index}>
-                      <td>
-                        <div className="how-itemcart1">
-                          <img src={image} />
-                        </div>
-                      </td>
-                      <td>{name}</td>
-                      <td>$ {price}</td>
-                      <td>{quantity}</td>
-                      <td>$ {price * quantity}</td>
-                    </tr>
-                  ))}
+                  {cart.map(
+                    ({ id, name, image, price_sale, quantity }, index) => (
+                      <tr className="table_row" key={index}>
+                        <td>
+                          <div className="how-itemcart1">
+                            <img src={image} />
+                          </div>
+                        </td>
+                        <td>{name}</td>
+                        <td>$ {price_sale}</td>
+                        <td>{quantity}</td>
+                        <td>$ {price_sale * quantity}</td>
+                      </tr>
+                    )
+                  )}
                 </tbody>
               </table>
             </div>

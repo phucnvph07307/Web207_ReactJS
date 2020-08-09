@@ -34,7 +34,7 @@ function App() {
   const getAllCategories = async () => {
     try {
       const { data } = await Category_API.getAll();
-      setCategories(data);
+      setCategories(data.data);
     } catch (error) {
       console.log("failed to request API CATEGORY: ", error);
     }
@@ -58,7 +58,7 @@ function App() {
 
   const getTotal = (array = []) => {
     const res = array.reduce((prev, item) => {
-      return prev + item.price * item.quantity;
+      return prev + item.price_sale * item.quantity;
     }, 0);
     setTotal(res);
   };
@@ -101,7 +101,7 @@ function App() {
     } else {
       cart.forEach((element) => {
         if (element.id == id) {
-          element.quantity++;
+          element.quantity += quantity;
         }
       });
       localStorage["shopping-cart-items"] = JSON.stringify(cart);

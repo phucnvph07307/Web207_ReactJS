@@ -26,6 +26,8 @@ import Upload from "../components/Upload";
 import Invoive from "../pages/views/Admin/Invoive";
 import InvoiveDetail from "../pages/views/Admin/Invoive/show";
 import UpdateCategory from "../pages/views/Admin/Category/update";
+import ProductInCategory from "../pages/views/Main/ProductInCategory/ProductInCategory";
+import Search from "../pages/views/Main/Search";
 const Routers = ({
   products,
   products_client,
@@ -54,8 +56,8 @@ const Routers = ({
   const onHandleUpdateProduct = (id, value_edit) => {
     onUpdateProduct(id, value_edit);
   };
-  const onHandleAddCart = (e) => {
-    onAddCart(e);
+  const onHandleAddCart = (id, quantity) => {
+    onAddCart(id, quantity);
   };
   const onHandleRedution = (id) => {
     redution(id);
@@ -149,8 +151,26 @@ const Routers = ({
               <Route path="/" exact>
                 <Home products={products_client} onAddCart={onHandleAddCart} />
               </Route>
-              <Route path="/shop">
-                <Shop products={products_client} />
+              <Route path="/shop" exact>
+                <Shop
+                  products={products_client}
+                  onAddCart={onHandleAddCart}
+                  categories={categories}
+                />
+              </Route>
+              <Route path="/search/:keyword?" exact>
+                <Search
+                  products={products_client}
+                  onAddCart={onHandleAddCart}
+                  categories={categories}
+                />
+              </Route>
+              <Route path="/shop/category/:id" exact>
+                <ProductInCategory
+                  products={products_client}
+                  onAddCart={onHandleAddCart}
+                  categories={categories}
+                />
               </Route>
               <Route path="/blog">
                 <Blog />
@@ -162,7 +182,11 @@ const Routers = ({
                 <Contact />
               </Route>
               <Route path="/show/:id">
-                <DetailProduct products={products_client} />
+                <DetailProduct
+                  products={products_client}
+                  categories={categories}
+                  onAddCart={onHandleAddCart}
+                />
               </Route>
               <Route path="/shopping-cart">
                 <ShoppingCart

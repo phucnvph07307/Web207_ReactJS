@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-const Shop = ({ products, categories, onAddCart }) => {
+import { useHistory, useParams } from "react-router-dom";
+const ProductInCategory = ({ products, categories, onAddCart }) => {
+  const { id } = useParams();
   const onHandleAddCart = (id) => {
     onAddCart(id);
   };
@@ -26,7 +28,7 @@ const Shop = ({ products, categories, onAddCart }) => {
                 className="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1"
                 data-filter="*"
               >
-                All Products
+                Cate
               </button>
             </div>
 
@@ -53,53 +55,55 @@ const Shop = ({ products, categories, onAddCart }) => {
           <div className="row">
             <div className="col-md-8 col-lg-9 p-b-80">
               <div className="row isotope-grid">
-                {products.map(
-                  ({ id, name, image, price, price_sale }, index) => (
-                    <div
-                      key={index}
-                      className="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item "
-                    >
-                      <div className="block2 border">
-                        <div className="block2-pic hov-img0">
-                          <img src={image} alt="IMG-PRODUCT" />
-                          <Link
-                            to={`/show/${id}`}
-                            className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1"
-                          >
-                            Quick View
-                          </Link>
-                        </div>
-                        <div className="block2-txt flex-w flex-t p-t-14 p-3">
-                          <div className="block2-txt-child1 flex-col-l ">
-                            <Link to={`/show/${id}`} className="cl2">
-                              <h5>{name}</h5>
-                            </Link>
-                            <span className="stext-105 cl3">
-                              ${price_sale}
-                              {"   "}
-                              <s>${price}</s>
-                            </span>
-                          </div>
-                          <div className="block2-txt-child2 flex-r p-t-3">
-                            <button
-                              onClick={() => onHandleAddCart(id)}
-                              id="add-to-cart-{id}"
-                              data-id={id}
-                              data-name={name}
-                              data-image={image}
-                              data-price={price}
-                              className="btn-addwish-b2 dis-block pos-relative
-                        js-addwish-b2"
+                {products.map((element, index) => {
+                  if (element.cate_id == id) {
+                    return (
+                      <div
+                        key={index}
+                        className="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item "
+                      >
+                        <div className="block2 border">
+                          <div className="block2-pic hov-img0">
+                            <img src={element.image} alt="IMG-PRODUCT" />
+                            <Link
+                              to={`/show/${element.id}`}
+                              className="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1"
                             >
-                              <i className="icon-heart1 dis-block trans-04 fas fa-shopping-cart text-primary"></i>
-                              <i className="icon-heart2 dis-block trans-04 ab-t-l fas fa-shopping-cart"></i>
-                            </button>
+                              Quick View
+                            </Link>
+                          </div>
+                          <div className="block2-txt flex-w flex-t p-t-14 p-3">
+                            <div className="block2-txt-child1 flex-col-l ">
+                              <Link to={`/show/${element.id}`} className="cl2">
+                                <h5>{element.name}</h5>
+                              </Link>
+                              <span className="stext-105 cl3">
+                                ${element.price_sale}
+                                {"   "}
+                                <s>${element.price}</s>
+                              </span>
+                            </div>
+                            <div className="block2-txt-child2 flex-r p-t-3">
+                              <button
+                                onClick={() => onHandleAddCart(element.id)}
+                                id="add-to-cart-{id}"
+                                data-id={element.id}
+                                data-name={element.name}
+                                data-image={element.image}
+                                data-price={element.price}
+                                className="btn-addwish-b2 dis-block pos-relative
+                        js-addwish-b2"
+                              >
+                                <i className="icon-heart1 dis-block trans-04 fas fa-shopping-cart text-primary"></i>
+                                <i className="icon-heart2 dis-block trans-04 ab-t-l fas fa-shopping-cart"></i>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  )
-                )}
+                    );
+                  }
+                })}
               </div>
             </div>
 
@@ -245,6 +249,6 @@ const Shop = ({ products, categories, onAddCart }) => {
   );
 };
 
-Shop.propTypes = {};
+ProductInCategory.propTypes = {};
 
-export default Shop;
+export default ProductInCategory;

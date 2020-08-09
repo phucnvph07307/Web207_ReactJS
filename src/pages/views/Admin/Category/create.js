@@ -60,7 +60,7 @@ const CreateCategory = ({ onCreateCategory }) => {
                       required: true,
                       pattern: /^(?!\s)(?!.*\s$)(?=.*[a-zA-Z0-9])[a-zA-Z0-9 '~?!]{2,}$/g,
                     })}
-                    placeholder="Enter Name Product"
+                    placeholder="Enter Name Category"
                   />
                   <span className="text-danger">
                     {errors.cate_name?.type === "required" &&

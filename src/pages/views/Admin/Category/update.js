@@ -36,7 +36,7 @@ const UpdateCategory = ({ categories, onUpdateCategory }) => {
         setCates(result);
       }
     } catch (error) {
-      console.log("failed to request API PRODUCT: ", error);
+      console.log("failed to request API : ", error);
     }
   };
 

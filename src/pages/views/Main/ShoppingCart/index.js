@@ -141,7 +141,7 @@ const ShoppingCart = ({
                         <th className="column-1"></th>
                       </tr>
                       {cart.map(
-                        ({ id, name, image, price, quantity }, index) => (
+                        ({ id, name, image, price_sale, quantity }, index) => (
                           <tr className="table_row" key={index}>
                             <td className="column-1">
                               <div className="how-itemcart1">
@@ -149,12 +149,13 @@ const ShoppingCart = ({
                               </div>
                             </td>
                             <td className="column-2">{name}</td>
-                            <td className="column-3">$ {price}</td>
+                            <td className="column-3">$ {price_sale}</td>
                             <td className="column-4">
                               <div className="wrap-num-product flex-w m-l-auto m-r-0">
                                 <div
                                   className="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m "
-                                  onClick={() => onHandleRedution(id)}>
+                                  onClick={() => onHandleRedution(id)}
+                                >
                                   <i className="fs-16 zmdi zmdi-minus text-danger" />
                                 </div>
                                 <div className="pt-2 txt-center num-product">
@@ -162,12 +163,15 @@ const ShoppingCart = ({
                                 </div>
                                 <div
                                   className="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m"
-                                  onClick={() => onHandleIncrease(id)}>
+                                  onClick={() => onHandleIncrease(id)}
+                                >
                                   <i className="fs-16 zmdi zmdi-plus text-primary" />
                                 </div>
                               </div>
                             </td>
-                            <td className="column-5">$ {price * quantity}</td>
+                            <td className="column-5">
+                              $ {price_sale * quantity}
+                            </td>
                             <td>
                               <button onClick={() => onHandlRemoveItemCart(id)}>
                                 <i className="fas fa-times text-danger"></i>
@@ -182,12 +186,14 @@ const ShoppingCart = ({
                 <div className="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
                   <div
                     className="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10 bg-danger"
-                    onClick={() => onHandleClearCart()}>
+                    onClick={() => onHandleClearCart()}
+                  >
                     Clear Cart
                   </div>
                   <Link
                     to="/check-out"
-                    className="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10 bg-warning">
+                    className="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10 bg-warning"
+                  >
                     Check Out
                   </Link>
                 </div>

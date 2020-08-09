@@ -143,12 +143,12 @@ const Home = ({ products, onAddCart }) => {
           </div>
 
           <div className="row isotope-grid">
-            {products.map(({ id, name, image, price }, index) => (
+            {products.map(({ id, name, image, price, price_sale }, index) => (
               <div
                 key={index}
                 className="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item "
               >
-                <div className="block2">
+                <div className="block2 border">
                   <div className="block2-pic hov-img0">
                     <img src={image} alt="IMG-PRODUCT" />
                     <Link
@@ -158,15 +158,16 @@ const Home = ({ products, onAddCart }) => {
                       Quick View
                     </Link>
                   </div>
-                  <div className="block2-txt flex-w flex-t p-t-14">
+                  <div className="block2-txt flex-w flex-t p-t-14 p-3">
                     <div className="block2-txt-child1 flex-col-l ">
-                      <Link
-                        to={`/show/${id}`}
-                        className="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6"
-                      >
-                        {name}
+                      <Link to={`/show/${id}`} className="cl2">
+                        <h5>{name}</h5>
                       </Link>
-                      <span className="stext-105 cl3">${price}</span>
+                      <span className="stext-105 cl3">
+                        ${price_sale}
+                        {"   "}
+                        <s>${price}</s>
+                      </span>
                     </div>
                     <div className="block2-txt-child2 flex-r p-t-3">
                       <button
@@ -179,7 +180,7 @@ const Home = ({ products, onAddCart }) => {
                         className="btn-addwish-b2 dis-block pos-relative
                         js-addwish-b2"
                       >
-                        <i className="icon-heart1 dis-block trans-04 fas fa-shopping-cart"></i>
+                        <i className="icon-heart1 dis-block trans-04 fas fa-shopping-cart text-primary"></i>
                         <i className="icon-heart2 dis-block trans-04 ab-t-l fas fa-shopping-cart"></i>
                       </button>
                     </div>
