@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Invoice_API from "../../../../api/invoiceApi";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import Moment from "react-moment";
 const Invoive = (props) => {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -61,7 +62,9 @@ const Invoive = (props) => {
 
                       <td>{customer_address}</td>
                       <td>${total_price}</td>
-                      <td>{total_price}</td>
+                      <td>
+                        {<Moment format="DD/MM/YYYY">{created_at}</Moment>}
+                      </td>
                       <td>
                         <center>
                           <Link

@@ -119,8 +119,6 @@ const CreateProduct = ({ categories, onCreateProduct }) => {
                       required: true,
                     })}
                   >
-                    <option value="">... Choose a category ...</option>
-
                     {categories.map((elment, index) => (
                       <option key={index} value={elment.id}>
                         {elment.cate_name}

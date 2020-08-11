@@ -4,7 +4,7 @@ import Invoice_API from "../../../../api/invoiceApi";
 import InvoiceDetail_API from "../../../../api/invoice_detaiApi";
 import { Link } from "react-router-dom";
 
-const Dashboard = ({ products, categories }) => {
+const Dashboard = ({ products, categories, news }) => {
   const [total, setTotal] = useState(0);
   const [countProduct, setCountProduct] = useState(0);
 
@@ -134,14 +134,14 @@ const Dashboard = ({ products, categories }) => {
               <div className="row no-gutters align-items-center">
                 <div className="col mr-2">
                   <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                    Pending Requests
+                    News
                   </div>
                   <div className="h5 mb-0 font-weight-bold text-gray-800">
-                    18
+                    {news.length}
                   </div>
                 </div>
                 <div className="col-auto">
-                  <i className="fas fa-comments fa-2x text-gray-300" />
+                  <i className="fas fa-news fa-2x text-gray-300" />
                 </div>
               </div>
             </div>

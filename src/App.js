@@ -13,11 +13,13 @@ function App() {
   const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
   const [invoice, setInvoice] = useState([]);
+  const [news, setNews] = useState([]);
 
   useEffect(() => {
     getAllProducts();
     getAllCategories();
     getAllProductsClient();
+    getNews();
   }, []);
 
   useEffect(() => {
@@ -165,8 +167,12 @@ function App() {
         newCategories.forEach((element, index) => {
           if (element.id == id) newCategories.splice(index, 1);
         });
-        console.log(newCategories);
+        const newProducts = [...products];
+        newProducts.forEach((element, index) => {
+          if (element.cate_id == id) element.cate_id = 1;
+        });
         setCategories(newCategories);
+        setProducts(newProducts);
       }
     } catch (error) {
       console.log("failed to request API REMOVE CATEGORY: ", error);
@@ -182,6 +188,12 @@ function App() {
       if (element.id == id) newCategories.splice(index, 1);
     });
     setCategories([...newCategories, data]);
+  };
+  const getNews = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/news");
+      setNews(response.data);
+    } catch (error) {}
   };
 
   return (
@@ -204,6 +216,7 @@ function App() {
         onRemoveCategory={onHandleRemoveCategory}
         onCreateCategory={onHandleCreateCategory}
         onUpdateCategory={onHandleUpdateCategory}
+        news={news}
       />
     </div>
   );

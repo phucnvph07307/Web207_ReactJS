@@ -74,6 +74,32 @@ const Sidebar = (props) => {
           <span>Orders</span>
         </Link>
       </li>
+      <li className="nav-item">
+        <Link
+          className="nav-link collapsed"
+          to="/admin/news"
+          data-toggle="collapse"
+          data-target="#collapseTwo"
+          aria-expanded="true"
+          aria-controls="collapseTwo"
+        >
+          <i className="fas fa-fw fa-cog" />
+          <span>News</span>
+        </Link>
+      </li>
+      <li className="nav-item">
+        <Link
+          className="nav-link collapsed"
+          to="/admin/contacts"
+          data-toggle="collapse"
+          data-target="#collapseTwo"
+          aria-expanded="true"
+          aria-controls="collapseTwo"
+        >
+          <i className="fas fa-fw fa-cog" />
+          <span>Contacts</span>
+        </Link>
+      </li>
 
       {/* Divider */}
       <hr className="sidebar-divider d-none d-md-block" />

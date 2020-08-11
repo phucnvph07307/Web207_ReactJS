@@ -29,6 +29,9 @@ import UpdateCategory from "../pages/views/Admin/Category/update";
 import ProductInCategory from "../pages/views/Main/ProductInCategory/ProductInCategory";
 import Search from "../pages/views/Main/Search";
 import ThankYou from "../pages/views/Main/ThankYou";
+import DetailBlog from "../pages/views/Main/DetailBlog";
+import ContactAdmin from "../pages/views/Admin/Contact";
+import News from "../pages/views/Admin/News";
 const Routers = ({
   products,
   products_client,
@@ -47,6 +50,7 @@ const Routers = ({
   onRemoveCategory,
   onCreateCategory,
   onUpdateCategory,
+  news,
 }) => {
   const onHandleRemove = (id) => {
     onRemove(id);
@@ -96,7 +100,11 @@ const Routers = ({
           <MainAdmin>
             <Switch>
               <Route path="/admin/" exact>
-                <Dashboard categories={categories} products={products} />
+                <Dashboard
+                  categories={categories}
+                  products={products}
+                  news={news}
+                />
               </Route>
               <Route path="/admin/category" exact>
                 <Categories
@@ -143,6 +151,12 @@ const Routers = ({
               <Route path="/admin/invoice/:id">
                 <InvoiveDetail products={products} />
               </Route>
+              <Route path="/admin/news">
+                <News />
+              </Route>
+              <Route path="/admin/contacts">
+                <ContactAdmin />
+              </Route>
             </Switch>
           </MainAdmin>
         </Route>
@@ -174,7 +188,10 @@ const Routers = ({
                 />
               </Route>
               <Route path="/blog">
-                <Blog />
+                <Blog news={news} />
+              </Route>
+              <Route path="/blog-detail/:id?">
+                <DetailBlog news={news} />
               </Route>
               <Route path="/about">
                 <About />

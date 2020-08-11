@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-const Blog = ({ news }) => {
+const DetailBlog = ({ news }) => {
+  const { id } = useParams();
+
   return (
     <div>
       <section
@@ -19,68 +22,105 @@ const Blog = ({ news }) => {
             <div className="col-md-8 col-lg-9 p-b-80">
               <div className="p-r-45 p-r-0-lg">
                 {news.map((element, index) => {
-                  return (
-                    <div className="p-b-63" key={index}>
-                      <Link
-                        to={`/blog-detail/${element.id}`}
-                        className="hov-img0 how-pos5-parent"
-                      >
-                        <img src={element.image} />
-                        <div className="flex-col-c-m size-123 bg9 how-pos5">
-                          <span className="ltext-107 cl2 txt-center">22</span>
-                          <span className="stext-109 cl3 txt-center">
-                            Jan 2018
+                  if (element.id == id) {
+                    return (
+                      <div className="p-b-63" key={index}>
+                        <span className="flex-w flex-m stext-111 cl2 p-r-30 m-tb-10">
+                          <span>
+                            <span className="cl4">By</span> Admin
+                            <span className="cl12 m-l-4 m-r-6">|</span>
                           </span>
+                          <span>
+                            StreetStyle, Fashion, Couple
+                            <span className="cl12 m-l-4 m-r-6">|</span>
+                          </span>
+                          <span>8 Comments</span>
+                        </span>
+                        <div className="hov-img0 how-pos5-parent">
+                          <img src={element.image} />
+                          <div className="flex-col-c-m size-123 bg9 how-pos5">
+                            <span className="ltext-107 cl2 txt-center">22</span>
+                            <span className="stext-109 cl3 txt-center">
+                              Jan 2018
+                            </span>
+                          </div>
                         </div>
-                      </Link>
-                      <div className="p-t-32">
-                        <h4 className="p-b-15">
-                          <Link
-                            to={`/blog-detail/${element.id}`}
-                            className="ltext-108 cl2 hov-cl1 trans-04"
-                          >
-                            {element.title}
-                          </Link>
-                        </h4>
-                        <p className="stext-117 cl6">{element.description}</p>
-                        <div className="flex-w flex-sb-m p-t-18">
-                          <span className="flex-w flex-m stext-111 cl2 p-r-30 m-tb-10">
-                            <span>
-                              <span className="cl4">By</span> Admin
-                              <span className="cl12 m-l-4 m-r-6">|</span>
-                            </span>
-                            <span>
-                              StreetStyle, Fashion, Couple
-                              <span className="cl12 m-l-4 m-r-6">|</span>
-                            </span>
-                            <span>8 Comments</span>
-                          </span>
-                          <Link
-                            to={`/blog-detail/${element.id}`}
-                            className="stext-101 cl2 hov-cl1 trans-04 m-tb-10"
-                          >
-                            Continue Reading
-                            <i className="fa fa-long-arrow-right m-l-9" />
-                          </Link>
+                        <div className="p-t-32">
+                          <h4 className="p-b-15">
+                            <div className="ltext-108 cl2 hov-cl1 trans-04">
+                              {element.title}
+                            </div>
+                          </h4>
+                          <p className="stext-117 cl6">{element.detail}</p>
                         </div>
                       </div>
-                    </div>
-                  );
+                    );
+                  }
                 })}
-                {/* Pagination */}
-                <div className="flex-l-m flex-w w-full p-t-10 m-lr--7">
-                  <a
-                    href="#"
-                    className="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1"
-                  >
-                    1
-                  </a>
-                  <a
-                    href="#"
-                    className="flex-c-m how-pagination1 trans-04 m-all-7"
-                  >
-                    2
-                  </a>
+
+                <div class="flex-w flex-t p-t-16">
+                  <span class="size-216 stext-116 cl8 p-t-4">Tags</span>
+
+                  <div class="flex-w size-217">
+                    <a
+                      href="#"
+                      class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5"
+                    >
+                      Streetstyle
+                    </a>
+
+                    <a
+                      href="#"
+                      class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5"
+                    >
+                      Crafts
+                    </a>
+                  </div>
+                </div>
+
+                <div className="p-t-40">
+                  <h5 className="mtext-113 cl2 p-b-12">Leave a Comment</h5>
+                  <p className="stext-107 cl6 p-b-40">
+                    Your email address will not be published. Required fields
+                    are marked *
+                  </p>
+                  <form>
+                    <div className="bor19 m-b-20">
+                      <textarea
+                        className="stext-111 cl2 plh3 size-124 p-lr-18 p-tb-15"
+                        name="cmt"
+                        placeholder="Comment..."
+                        defaultValue={""}
+                      />
+                    </div>
+                    <div className="bor19 size-218 m-b-20">
+                      <input
+                        className="stext-111 cl2 plh3 size-116 p-lr-18"
+                        type="text"
+                        name="name"
+                        placeholder="Name *"
+                      />
+                    </div>
+                    <div className="bor19 size-218 m-b-20">
+                      <input
+                        className="stext-111 cl2 plh3 size-116 p-lr-18"
+                        type="text"
+                        name="email"
+                        placeholder="Email *"
+                      />
+                    </div>
+                    <div className="bor19 size-218 m-b-30">
+                      <input
+                        className="stext-111 cl2 plh3 size-116 p-lr-18"
+                        type="text"
+                        name="web"
+                        placeholder="Website"
+                      />
+                    </div>
+                    <button className="flex-c-m stext-101 cl0 size-125 bg3 bor2 hov-btn3 p-lr-15 trans-04">
+                      Post Comment
+                    </button>
+                  </form>
                 </div>
               </div>
             </div>
@@ -319,6 +359,6 @@ const Blog = ({ news }) => {
   );
 };
 
-Blog.propTypes = {};
+DetailBlog.propTypes = {};
 
-export default Blog;
+export default DetailBlog;

@@ -146,7 +146,6 @@ const UpdateProduct = ({ products, categories, onUpdateProduct }) => {
                               required: true,
                             })}
                           >
-                            <option value="">... Choose a category ...</option>
                             {categories.map((elment, index) => (
                               <option
                                 key={index}
